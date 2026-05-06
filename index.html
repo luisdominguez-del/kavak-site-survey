@@ -1329,7 +1329,7 @@ function renderResult(s) {
 // ══════════════════════════════════════════
 // PERSISTENCE
 // ══════════════════════════════════════════
-const APPS_SCRIPT_URL = 'https://script.google.com/a/macros/kavak.com/s/AKfycbzY173SIEYLgrdYRpG_5CHQULjtgkhjFhsp4HMtFnIk8oghd-GaufetUXJLqf6G7u0u/exec';
+const APPS_SCRIPT_URL = 'https://script.google.com/a/macros/kavak.com/s/AKfycbzogxwq5-LT5KbXYYYg5yZwI4Y4ZOCKDWE0ZVMa4eBturVFFOkFbwurdEbUrzPgL35r/exec';
 
 function showSyncStatus(msg, color) {
   let el = document.getElementById('sync-status');
@@ -1368,12 +1368,31 @@ async function saveSurvey(survey) {
   };
 
   try {
-    const res = await fetch(APPS_SCRIPT_URL, {
-      method: 'POST',
-      mode: 'no-cors',
-      headers: { 'Content-Type': 'text/plain' },
-      body: JSON.stringify(payload)
-    });
+    // Usar iframe + form para evitar bloqueo CORS con dominio kavak.com
+    const iframe = document.createElement('iframe');
+    iframe.name = 'hidden_iframe_' + Date.now();
+    iframe.style.display = 'none';
+    document.body.appendChild(iframe);
+
+    const form = document.createElement('form');
+    form.method = 'POST';
+    form.action = APPS_SCRIPT_URL;
+    form.target = iframe.name;
+    form.style.display = 'none';
+
+    const input = document.createElement('input');
+    input.type = 'hidden';
+    input.name = 'payload';
+    input.value = JSON.stringify(payload);
+    form.appendChild(input);
+
+    document.body.appendChild(form);
+    form.submit();
+
+    setTimeout(() => {
+      try { document.body.removeChild(form); document.body.removeChild(iframe); } catch(e) {}
+    }, 5000);
+
     showSyncStatus('✅ Guardado en Google Sheets', '#4ade80');
   } catch(err) {
     showSyncStatus('⚠️ Sin conexión — guardado solo local', '#fbbf24');
