@@ -1472,7 +1472,7 @@ function renderResult(s) {
 // ══════════════════════════════════════════
 // PERSISTENCE
 // ══════════════════════════════════════════
-const APPS_SCRIPT_URL = 'https://script.google.com/a/macros/kavak.com/s/AKfycbxUzkFRzujq9NnokxU0wpB6bZIQx9Q02nGemedY7YheYFIzl7o3vSKWCwATgY9NWp1M/exec';
+const APPS_SCRIPT_URL = 'https://script.google.com/a/macros/kavak.com/s/AKfycbyVBL6QPIIUPoqo292oCIEqxIGFE-_Chirm3Fvn_v9gZJfRQcwAtxEORgAPf5WqLeWI/exec';
 
 function showSyncStatus(msg, color) {
   let el = document.getElementById('sync-status');
@@ -1612,6 +1612,7 @@ async function uploadPhotosToDrive(survey, photos) {
 }
 
 async function loadSurveys() {
+  // Cargar local primero (fotos y evaluaciones del dispositivo actual)
   try {
     const res = await window.storage.get('surveys_local');
     if (res) allSurveys = JSON.parse(res.value);
@@ -1620,6 +1621,38 @@ async function loadSurveys() {
     const res2 = await window.storage.get('photos_local');
     if (res2) allPhotoData = JSON.parse(res2.value);
   } catch(e) { allPhotoData = {}; }
+
+  // Luego cargar desde Google Sheet para tener TODAS las evaluaciones de todos
+  try {
+    const resp = await fetch(APPS_SCRIPT_URL + '?action=getAll', { method: 'GET' });
+    const text = await resp.text();
+    const rows = JSON.parse(text);
+    if (Array.isArray(rows) && rows.length > 0) {
+      // Convertir filas del Sheet al formato del portal
+      const fromSheet = rows.map(r => ({
+        id:          r.id,
+        model:       r.modelo,
+        name:        r.nombre,
+        ciudad:      r.ciudad,
+        evaluador:   r.evaluador,
+        date:        r.fecha,
+        pct:         Number(r.score_pct) || 0,
+        verdict:     r.verdict,
+        color:       r.color,
+        dealbreakers: r.dealbreakers ? r.dealbreakers.split(' | ').filter(Boolean) : [],
+        breakdown:   r.breakdown ? JSON.parse(r.breakdown) : [],
+        answers:     {},
+        driveLink:   r.fotos_drive || ''
+      }));
+      // Merge: Sheet es la fuente de verdad, local añade fotos
+      const sheetIds = new Set(fromSheet.map(s => String(s.id)));
+      const localOnly = allSurveys.filter(s => !sheetIds.has(String(s.id)));
+      allSurveys = [...fromSheet, ...localOnly];
+      allSurveys.sort((a, b) => Number(b.id) - Number(a.id));
+    }
+  } catch(e) {
+    console.warn('No se pudo cargar desde Sheet, usando datos locales:', e);
+  }
 }
 
 // ══════════════════════════════════════════
@@ -1762,11 +1795,11 @@ function renderDetail(s) {
     html += `</div>`;
   });
 
-  // Upload status
-  if (s.driveLinks && s.driveLinks.length > 0) {
+  // Drive link
+  if (s.driveLink) {
     html += `<div class="upload-status">
       <div class="upload-status-title">📁 Fotos en Google Drive</div>
-      ${s.driveLinks.map(l => `<div class="upload-item"><span>${l.section}</span><a href="${l.url}" target="_blank" class="u-ok">Ver carpeta →</a></div>`).join('')}
+      <div class="upload-item"><span>Carpeta del sitio</span><a href="${s.driveLink}" target="_blank" class="u-ok">Abrir en Drive →</a></div>
     </div>`;
   }
 
@@ -1818,7 +1851,7 @@ function renderDashboard() {
       <div><span class="survey-model-tag" style="${tagStyle[s.model]}">${s.model.toUpperCase()}</span></div>
       <div style="display:flex;flex-direction:column;align-items:flex-end;gap:4px">
         <div class="survey-score" style="color:${scoreColor[s.color]}">${s.color === 'nogo' ? '⛔' : s.pct + '%'}<br><span style="font-size:10px;color:var(--gray-400)">${verdictShort[s.color]}</span></div>
-        <span style="font-size:10px;color:var(--gray-400);font-family:var(--mono)">ver detalle →</span>
+        <span style="font-size:10px;color:var(--gray-400);font-family:var(--mono)">${s.driveLink ? "📁 fotos · " : ""}ver detalle →</span>
       </div>
     </div>`).join('');
 }
