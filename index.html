@@ -1496,7 +1496,8 @@ async function saveSurvey(survey) {
 
   // 2. Guardar localmente primero (backup inmediato)
   allSurveys.unshift(survey);
-  try { await window.storage.set('surveys_local', JSON.stringify(allSurveys)); } catch(e) {}
+  try { await window.storage.set('surveys_local', JSON.stringify(allSurveys), true); } catch(e) {} // shared
+  try { await window.storage.set('surveys_local', JSON.stringify(allSurveys)); } catch(e) {} // local backup
   try { await window.storage.set('photos_local', JSON.stringify(allPhotoData)); } catch(e) {}
 
   // 2. Enviar a Google Sheets
@@ -1612,47 +1613,15 @@ async function uploadPhotosToDrive(survey, photos) {
 }
 
 async function loadSurveys() {
-  // Cargar local primero (fotos y evaluaciones del dispositivo actual)
+  // Cargar desde storage compartido (funciona entre dispositivos en el mismo portal)
   try {
-    const res = await window.storage.get('surveys_local');
+    const res = await window.storage.get('surveys_local', true); // shared=true
     if (res) allSurveys = JSON.parse(res.value);
   } catch(e) { allSurveys = []; }
   try {
     const res2 = await window.storage.get('photos_local');
     if (res2) allPhotoData = JSON.parse(res2.value);
   } catch(e) { allPhotoData = {}; }
-
-  // Luego cargar desde Google Sheet para tener TODAS las evaluaciones de todos
-  try {
-    const resp = await fetch(APPS_SCRIPT_URL + '?action=getAll', { method: 'GET' });
-    const text = await resp.text();
-    const rows = JSON.parse(text);
-    if (Array.isArray(rows) && rows.length > 0) {
-      // Convertir filas del Sheet al formato del portal
-      const fromSheet = rows.map(r => ({
-        id:          r.id,
-        model:       r.modelo,
-        name:        r.nombre,
-        ciudad:      r.ciudad,
-        evaluador:   r.evaluador,
-        date:        r.fecha,
-        pct:         Number(r.score_pct) || 0,
-        verdict:     r.verdict,
-        color:       r.color,
-        dealbreakers: r.dealbreakers ? r.dealbreakers.split(' | ').filter(Boolean) : [],
-        breakdown:   r.breakdown ? JSON.parse(r.breakdown) : [],
-        answers:     {},
-        driveLink:   r.fotos_drive || ''
-      }));
-      // Merge: Sheet es la fuente de verdad, local añade fotos
-      const sheetIds = new Set(fromSheet.map(s => String(s.id)));
-      const localOnly = allSurveys.filter(s => !sheetIds.has(String(s.id)));
-      allSurveys = [...fromSheet, ...localOnly];
-      allSurveys.sort((a, b) => Number(b.id) - Number(a.id));
-    }
-  } catch(e) {
-    console.warn('No se pudo cargar desde Sheet, usando datos locales:', e);
-  }
 }
 
 // ══════════════════════════════════════════
