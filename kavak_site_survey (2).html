@@ -1,0 +1,1459 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Kavak · Site Survey</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+:root {
+  --black: #0a0a0a;
+  --white: #f8f7f4;
+  --gray-100: #f0efec;
+  --gray-200: #e2e0db;
+  --gray-400: #a09d97;
+  --gray-600: #6b6864;
+  --kavak-blue: #0047BB;
+  --kavak-blue-light: #e8f0ff;
+  --green: #1a7f4b;
+  --green-light: #e8f5ee;
+  --yellow: #b85c00;
+  --yellow-light: #fff4e0;
+  --red: #c0392b;
+  --red-light: #fdecea;
+  --radius: 12px;
+  --radius-sm: 8px;
+  --mono: 'DM Mono', monospace;
+  --display: 'Syne', sans-serif;
+  --body: 'DM Sans', sans-serif;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  font-family: var(--body);
+  background: var(--gray-100);
+  color: var(--black);
+  min-height: 100vh;
+  font-size: 15px;
+  line-height: 1.5;
+}
+
+/* ── HEADER ── */
+.header {
+  background: var(--black);
+  padding: 16px 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+.logo {
+  font-family: var(--display);
+  font-size: 18px;
+  font-weight: 800;
+  color: var(--white);
+  letter-spacing: -0.02em;
+}
+.logo span { color: #4d9fff; }
+.header-right { display: flex; gap: 8px; align-items: center; }
+.btn-dash {
+  font-family: var(--mono);
+  font-size: 11px;
+  color: var(--gray-400);
+  background: rgba(255,255,255,0.06);
+  border: 1px solid rgba(255,255,255,0.1);
+  border-radius: 6px;
+  padding: 6px 12px;
+  cursor: pointer;
+  transition: all 0.15s;
+}
+.btn-dash:hover { color: var(--white); background: rgba(255,255,255,0.12); }
+.btn-dash.active { color: #4d9fff; border-color: #4d9fff; background: rgba(77,159,255,0.1); }
+
+/* ── HOME ── */
+.home {
+  max-width: 520px;
+  margin: 0 auto;
+  padding: 40px 20px 80px;
+}
+.home-eyebrow {
+  font-family: var(--mono);
+  font-size: 11px;
+  color: var(--gray-400);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  margin-bottom: 12px;
+}
+.home-title {
+  font-family: var(--display);
+  font-size: 32px;
+  font-weight: 800;
+  line-height: 1.1;
+  letter-spacing: -0.03em;
+  margin-bottom: 8px;
+}
+.home-sub {
+  color: var(--gray-600);
+  font-size: 14px;
+  margin-bottom: 40px;
+  line-height: 1.6;
+}
+.model-cards { display: flex; flex-direction: column; gap: 12px; }
+.model-card {
+  background: var(--white);
+  border: 1.5px solid var(--gray-200);
+  border-radius: var(--radius);
+  padding: 24px;
+  cursor: pointer;
+  transition: all 0.2s;
+  position: relative;
+  overflow: hidden;
+}
+.model-card::before {
+  content: '';
+  position: absolute;
+  left: 0; top: 0; bottom: 0;
+  width: 4px;
+  background: var(--kavak-blue);
+  border-radius: 4px 0 0 4px;
+  opacity: 0;
+  transition: opacity 0.2s;
+}
+.model-card.camper::before { background: #00a86b; }
+.model-card:hover { border-color: var(--kavak-blue); transform: translateY(-2px); box-shadow: 0 8px 24px rgba(0,71,187,0.1); }
+.model-card.camper:hover { border-color: #00a86b; box-shadow: 0 8px 24px rgba(0,168,107,0.1); }
+.model-card:hover::before { opacity: 1; }
+.model-tag {
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: 0.08em;
+  font-weight: 500;
+  padding: 3px 8px;
+  border-radius: 4px;
+  display: inline-block;
+  margin-bottom: 10px;
+}
+.tag-flagship { background: var(--kavak-blue-light); color: var(--kavak-blue); }
+.tag-camper { background: #e8f8f2; color: #007a4d; }
+.model-name {
+  font-family: var(--display);
+  font-size: 20px;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  margin-bottom: 6px;
+}
+.model-desc { font-size: 13px; color: var(--gray-600); line-height: 1.5; margin-bottom: 16px; }
+.model-meta {
+  display: flex;
+  gap: 16px;
+}
+.meta-item { font-family: var(--mono); font-size: 11px; color: var(--gray-400); }
+.meta-item strong { color: var(--black); }
+
+/* ── FORM ── */
+.survey-wrap {
+  max-width: 580px;
+  margin: 0 auto;
+  padding: 24px 20px 100px;
+}
+.progress-bar {
+  background: var(--gray-200);
+  height: 3px;
+  border-radius: 2px;
+  margin-bottom: 24px;
+  overflow: hidden;
+}
+.progress-fill {
+  height: 100%;
+  background: var(--kavak-blue);
+  border-radius: 2px;
+  transition: width 0.4s ease;
+}
+.section-header { margin-bottom: 24px; }
+.section-eyebrow {
+  font-family: var(--mono);
+  font-size: 10px;
+  color: var(--gray-400);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  margin-bottom: 6px;
+}
+.section-title {
+  font-family: var(--display);
+  font-size: 22px;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  margin-bottom: 4px;
+}
+.section-desc { font-size: 13px; color: var(--gray-600); }
+
+/* Questions */
+.question-block {
+  background: var(--white);
+  border: 1px solid var(--gray-200);
+  border-radius: var(--radius);
+  padding: 18px;
+  margin-bottom: 10px;
+  transition: border-color 0.15s;
+}
+.question-block.required { border-left: 3px solid var(--kavak-blue); }
+.question-block.required.camper { border-left-color: #00a86b; }
+.q-label {
+  font-size: 14px;
+  font-weight: 500;
+  margin-bottom: 4px;
+  line-height: 1.4;
+}
+.q-hint { font-size: 12px; color: var(--gray-400); margin-bottom: 12px; }
+.q-required-badge {
+  font-family: var(--mono);
+  font-size: 9px;
+  letter-spacing: 0.06em;
+  color: var(--kavak-blue);
+  text-transform: uppercase;
+  margin-left: 6px;
+}
+.q-required-badge.camper { color: #00a86b; }
+
+/* Scale 1-3 */
+.scale-options { display: flex; gap: 8px; }
+.scale-btn {
+  flex: 1;
+  border: 1.5px solid var(--gray-200);
+  border-radius: var(--radius-sm);
+  padding: 10px 8px;
+  cursor: pointer;
+  text-align: center;
+  transition: all 0.15s;
+  background: var(--gray-100);
+}
+.scale-btn:hover { border-color: var(--gray-400); background: var(--white); }
+.scale-btn.selected-1 { background: #fdecea; border-color: var(--red); }
+.scale-btn.selected-2 { background: var(--yellow-light); border-color: var(--yellow); }
+.scale-btn.selected-3 { background: var(--green-light); border-color: var(--green); }
+.scale-num { font-family: var(--mono); font-size: 16px; font-weight: 500; display: block; margin-bottom: 2px; }
+.scale-label { font-size: 10px; color: var(--gray-600); line-height: 1.2; display: block; }
+.selected-1 .scale-num { color: var(--red); }
+.selected-1 .scale-label { color: var(--red); }
+.selected-2 .scale-num { color: var(--yellow); }
+.selected-2 .scale-label { color: var(--yellow); }
+.selected-3 .scale-num { color: var(--green); }
+.selected-3 .scale-label { color: var(--green); }
+
+/* Yes/No for dealbreakers */
+.yesno-options { display: flex; gap: 8px; }
+.yesno-btn {
+  flex: 1;
+  border: 1.5px solid var(--gray-200);
+  border-radius: var(--radius-sm);
+  padding: 10px;
+  cursor: pointer;
+  text-align: center;
+  background: var(--gray-100);
+  font-size: 14px;
+  font-weight: 500;
+  transition: all 0.15s;
+}
+.yesno-btn:hover { border-color: var(--gray-400); }
+.yesno-btn.sel-yes { background: #fdecea; border-color: var(--red); color: var(--red); }
+.yesno-btn.sel-no { background: var(--green-light); border-color: var(--green); color: var(--green); }
+.dealbreaker-warning {
+  background: #fdecea;
+  border: 1px solid var(--red);
+  border-radius: var(--radius-sm);
+  padding: 10px 14px;
+  font-size: 13px;
+  color: var(--red);
+  margin-top: 8px;
+  display: none;
+  font-weight: 500;
+}
+
+/* Text input */
+.text-input {
+  width: 100%;
+  border: 1.5px solid var(--gray-200);
+  border-radius: var(--radius-sm);
+  padding: 10px 12px;
+  font-family: var(--body);
+  font-size: 14px;
+  background: var(--gray-100);
+  color: var(--black);
+  transition: border-color 0.15s;
+  outline: none;
+}
+.text-input:focus { border-color: var(--kavak-blue); background: var(--white); }
+
+/* Photo section */
+.photo-section {
+  background: var(--white);
+  border: 1.5px dashed var(--gray-200);
+  border-radius: var(--radius);
+  padding: 18px;
+  margin-bottom: 10px;
+  text-align: center;
+}
+.photo-title { font-size: 13px; font-weight: 500; margin-bottom: 4px; }
+.photo-subtitle { font-size: 12px; color: var(--gray-400); margin-bottom: 12px; }
+.photo-upload-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: var(--gray-100);
+  border: 1px solid var(--gray-200);
+  border-radius: var(--radius-sm);
+  padding: 8px 16px;
+  font-size: 13px;
+  cursor: pointer;
+  font-family: var(--body);
+  color: var(--gray-600);
+  transition: all 0.15s;
+}
+.photo-upload-btn:hover { background: var(--white); border-color: var(--gray-400); color: var(--black); }
+.photo-grid { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 10px; justify-content: center; }
+.photo-thumb { width: 64px; height: 64px; border-radius: 8px; object-fit: cover; }
+.photo-count { font-family: var(--mono); font-size: 11px; color: var(--green); margin-top: 6px; display: none; }
+
+/* Nav buttons */
+.nav-buttons {
+  position: fixed;
+  bottom: 0; left: 0; right: 0;
+  background: var(--white);
+  border-top: 1px solid var(--gray-200);
+  padding: 12px 20px;
+  display: flex;
+  gap: 10px;
+  z-index: 50;
+}
+.btn-back {
+  border: 1.5px solid var(--gray-200);
+  border-radius: var(--radius-sm);
+  padding: 12px 20px;
+  background: var(--white);
+  font-family: var(--body);
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  color: var(--gray-600);
+  transition: all 0.15s;
+}
+.btn-back:hover { border-color: var(--black); color: var(--black); }
+.btn-next {
+  flex: 1;
+  border: none;
+  border-radius: var(--radius-sm);
+  padding: 12px 20px;
+  background: var(--kavak-blue);
+  color: var(--white);
+  font-family: var(--body);
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.15s;
+}
+.btn-next:hover { background: #003899; }
+.btn-next.camper { background: #00a86b; }
+.btn-next.camper:hover { background: #008855; }
+.btn-next:disabled { background: var(--gray-200); color: var(--gray-400); cursor: not-allowed; }
+
+/* ── RESULT ── */
+.result-wrap {
+  max-width: 520px;
+  margin: 0 auto;
+  padding: 32px 20px 100px;
+}
+.result-score-card {
+  border-radius: var(--radius);
+  padding: 32px 24px;
+  text-align: center;
+  margin-bottom: 20px;
+}
+.result-score-card.green { background: var(--green-light); border: 2px solid var(--green); }
+.result-score-card.yellow { background: var(--yellow-light); border: 2px solid var(--yellow); }
+.result-score-card.red { background: #fdecea; border: 2px solid var(--red); }
+.result-score-card.nogo { background: var(--black); }
+.result-verdict {
+  font-family: var(--mono);
+  font-size: 11px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  margin-bottom: 8px;
+}
+.result-score-card.green .result-verdict { color: var(--green); }
+.result-score-card.yellow .result-verdict { color: var(--yellow); }
+.result-score-card.red .result-verdict { color: var(--red); }
+.result-score-card.nogo .result-verdict { color: #ff6b6b; }
+.result-number {
+  font-family: var(--display);
+  font-size: 64px;
+  font-weight: 800;
+  letter-spacing: -0.04em;
+  line-height: 1;
+  margin-bottom: 8px;
+}
+.result-score-card.green .result-number { color: var(--green); }
+.result-score-card.yellow .result-number { color: var(--yellow); }
+.result-score-card.red .result-number { color: var(--red); }
+.result-score-card.nogo .result-number { color: #ff6b6b; }
+.result-label { font-size: 14px; }
+.result-score-card.nogo .result-label { color: var(--gray-400); }
+
+.result-dealbreaker-list { margin-top: 16px; text-align: left; }
+.db-item {
+  display: flex; gap: 8px; align-items: flex-start;
+  font-size: 13px; color: #ff8080; margin-bottom: 6px;
+}
+.db-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--red); flex-shrink: 0; margin-top: 5px; }
+
+.result-breakdown {
+  background: var(--white);
+  border: 1px solid var(--gray-200);
+  border-radius: var(--radius);
+  overflow: hidden;
+  margin-bottom: 16px;
+}
+.breakdown-row {
+  display: grid;
+  grid-template-columns: 1fr auto auto;
+  gap: 12px;
+  align-items: center;
+  padding: 12px 16px;
+  border-bottom: 1px solid var(--gray-100);
+}
+.breakdown-row:last-child { border-bottom: none; }
+.breakdown-name { font-size: 13px; font-weight: 500; }
+.breakdown-bar-wrap { width: 80px; height: 4px; background: var(--gray-200); border-radius: 2px; }
+.breakdown-bar { height: 100%; border-radius: 2px; }
+.breakdown-pct { font-family: var(--mono); font-size: 12px; color: var(--gray-600); min-width: 32px; text-align: right; }
+
+.result-actions { display: flex; flex-direction: column; gap: 10px; }
+.btn-primary {
+  width: 100%;
+  background: var(--kavak-blue);
+  color: var(--white);
+  border: none;
+  border-radius: var(--radius-sm);
+  padding: 14px;
+  font-family: var(--body);
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.15s;
+}
+.btn-primary:hover { background: #003899; }
+.btn-secondary {
+  width: 100%;
+  background: var(--white);
+  color: var(--black);
+  border: 1.5px solid var(--gray-200);
+  border-radius: var(--radius-sm);
+  padding: 14px;
+  font-family: var(--body);
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.15s;
+}
+.btn-secondary:hover { border-color: var(--black); }
+
+/* ── DASHBOARD ── */
+.dash-wrap {
+  max-width: 680px;
+  margin: 0 auto;
+  padding: 24px 20px 60px;
+}
+.dash-title {
+  font-family: var(--display);
+  font-size: 24px;
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  margin-bottom: 4px;
+}
+.dash-sub { font-size: 13px; color: var(--gray-600); margin-bottom: 24px; }
+.dash-kpis { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; margin-bottom: 20px; }
+.kpi-card {
+  background: var(--white);
+  border: 1px solid var(--gray-200);
+  border-radius: var(--radius-sm);
+  padding: 14px;
+  text-align: center;
+}
+.kpi-num { font-family: var(--display); font-size: 24px; font-weight: 700; }
+.kpi-label { font-size: 11px; color: var(--gray-400); margin-top: 2px; }
+.kpi-green { color: var(--green); }
+.kpi-yellow { color: var(--yellow); }
+.kpi-red { color: var(--red); }
+.kpi-blue { color: var(--kavak-blue); }
+
+.filter-bar { display: flex; gap: 8px; margin-bottom: 16px; flex-wrap: wrap; }
+.filter-chip {
+  font-family: var(--mono);
+  font-size: 11px;
+  padding: 6px 12px;
+  border-radius: 20px;
+  border: 1px solid var(--gray-200);
+  background: var(--white);
+  cursor: pointer;
+  color: var(--gray-600);
+  transition: all 0.15s;
+}
+.filter-chip.active { background: var(--black); color: var(--white); border-color: var(--black); }
+
+.survey-list { display: flex; flex-direction: column; gap: 10px; }
+.survey-item {
+  background: var(--white);
+  border: 1px solid var(--gray-200);
+  border-radius: var(--radius);
+  padding: 16px;
+  display: grid;
+  grid-template-columns: auto 1fr auto auto;
+  gap: 12px;
+  align-items: center;
+}
+.survey-semaphore {
+  width: 10px; height: 10px; border-radius: 50%;
+  flex-shrink: 0;
+}
+.sem-green { background: var(--green); }
+.sem-yellow { background: var(--yellow); }
+.sem-red { background: var(--red); }
+.sem-nogo { background: var(--black); }
+.survey-info .s-name { font-size: 14px; font-weight: 500; }
+.survey-info .s-meta { font-size: 12px; color: var(--gray-400); margin-top: 2px; }
+.survey-score {
+  font-family: var(--mono);
+  font-size: 14px;
+  font-weight: 500;
+  text-align: right;
+}
+.survey-model-tag {
+  font-family: var(--mono);
+  font-size: 9px;
+  letter-spacing: 0.06em;
+  padding: 2px 7px;
+  border-radius: 4px;
+}
+.empty-state {
+  text-align: center;
+  padding: 60px 20px;
+  color: var(--gray-400);
+}
+.empty-icon { font-size: 40px; margin-bottom: 12px; }
+.empty-text { font-size: 14px; }
+
+/* Utils */
+.hidden { display: none !important; }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div class="logo">KAVAK <span>·</span> Site Survey</div>
+  <div class="header-right">
+    <button class="btn-dash" id="btn-to-home" onclick="showHome()">+ Nueva visita</button>
+    <button class="btn-dash" id="btn-to-dash" onclick="showDashboard()">Dashboard</button>
+  </div>
+</div>
+
+<!-- HOME -->
+<div id="view-home">
+  <div class="home">
+    <div class="home-eyebrow">Kavak Real Estate · 2025</div>
+    <div class="home-title">¿Qué tipo de ubicación vas a evaluar?</div>
+    <div class="home-sub">Selecciona el modelo para comenzar el levantamiento. El formulario te guiará sección por sección durante el recorrido.</div>
+    <div class="model-cards">
+      <div class="model-card" onclick="startSurvey('flagship')">
+        <div class="model-tag tag-flagship">FLAGSHIP / COBRANDED</div>
+        <div class="model-name">Local a pie de calle</div>
+        <div class="model-desc">Locales comerciales en planta baja con fachada visible desde la calle. Alta inversión en capex, máxima visibilidad de marca.</div>
+        <div class="model-meta">
+          <span class="meta-item"><strong>1,500–4,000</strong> m²</span>
+          <span class="meta-item"><strong>7 secciones</strong></span>
+          <span class="meta-item"><strong>~45 min</strong> en campo</span>
+        </div>
+      </div>
+      <div class="model-card camper" onclick="startSurvey('camper')">
+        <div class="model-tag tag-camper">CAMPER</div>
+        <div class="model-name">Contenedor en estacionamiento</div>
+        <div class="model-desc">Módulo compacto en estacionamientos externos de supermercados o centros comerciales. Menor inversión, ubicación estratégica.</div>
+        <div class="model-meta">
+          <span class="meta-item"><strong>Flexible</strong> m²</span>
+          <span class="meta-item"><strong>6 secciones</strong></span>
+          <span class="meta-item"><strong>~35 min</strong> en campo</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- SURVEY FORM -->
+<div id="view-survey" class="hidden">
+  <div class="survey-wrap">
+    <div class="progress-bar"><div class="progress-fill" id="progress-fill"></div></div>
+    <div id="section-container"></div>
+  </div>
+  <div class="nav-buttons">
+    <button class="btn-back" id="btn-back" onclick="prevSection()">← Atrás</button>
+    <button class="btn-next" id="btn-next" onclick="nextSection()">Continuar →</button>
+  </div>
+</div>
+
+<!-- RESULT -->
+<div id="view-result" class="hidden">
+  <div class="result-wrap" id="result-container"></div>
+</div>
+
+<!-- DASHBOARD -->
+<div id="view-dashboard" class="hidden">
+  <div class="dash-wrap">
+    <div class="dash-title">Dashboard de ubicaciones</div>
+    <div class="dash-sub">Todas las evaluaciones registradas</div>
+    <div class="dash-kpis" id="dash-kpis"></div>
+    <div class="filter-bar" id="filter-bar">
+      <div class="filter-chip active" data-filter="all" onclick="filterDash(this,'all')">Todas</div>
+      <div class="filter-chip" data-filter="flagship" onclick="filterDash(this,'flagship')">Flagship</div>
+      <div class="filter-chip" data-filter="camper" onclick="filterDash(this,'camper')">Camper</div>
+      <div class="filter-chip" data-filter="green" onclick="filterDash(this,'green')">🟢 Verde</div>
+      <div class="filter-chip" data-filter="yellow" onclick="filterDash(this,'yellow')">🟡 Amarillo</div>
+      <div class="filter-chip" data-filter="red" onclick="filterDash(this,'red')">🔴 Rojo</div>
+      <div class="filter-chip" data-filter="nogo" onclick="filterDash(this,'nogo')">⛔ No Go</div>
+    </div>
+    <div class="survey-list" id="survey-list"></div>
+  </div>
+</div>
+
+<script>
+// ══════════════════════════════════════════
+// DATA DEFINITIONS
+// ══════════════════════════════════════════
+
+const FLAGSHIP_SECTIONS = [
+  {
+    id: 'datos',
+    title: 'Datos del sitio',
+    desc: 'Información básica de la ubicación que estás visitando.',
+    photo: null,
+    questions: [
+      { id: 'nombre', type: 'text', label: 'Nombre del sitio o plaza', required: true },
+      { id: 'direccion', type: 'text', label: 'Dirección completa', required: true },
+      { id: 'ciudad', type: 'text', label: 'Ciudad / Estado', required: true },
+      { id: 'evaluador', type: 'text', label: 'Nombre del evaluador', required: true },
+      { id: 'landlord', type: 'text', label: 'Nombre del contacto / landlord', required: false },
+    ]
+  },
+  {
+    id: 'ubicacion',
+    title: 'Ubicación y visibilidad',
+    desc: 'Evalúa cómo se ve y se percibe el sitio desde la calle.',
+    photo: { label: 'Fotos de fachada y entorno', hint: 'Toma al menos 3 fotos: fachada principal, calle desde lejos, y entorno inmediato.' },
+    questions: [
+      { id: 'visibilidad', type: 'scale', required: true,
+        label: 'Visibilidad desde la vía principal',
+        hint: 'Qué tanto se ve el espacio cuando vas circulando por la calle',
+        opts: ['Difícil de ver, está escondida', 'Se ve, pero requiere buscarlo', 'Altamente visible, resalta solo'] },
+      { id: 'trafico', type: 'scale', required: true,
+        label: 'Tráfico vehicular frente al sitio',
+        hint: 'Estimado de autos que pasan por hora en horario pico',
+        opts: ['Poco tráfico, calle secundaria', 'Tráfico medio, calle importante', 'Tráfico alto, avenida principal'] },
+      { id: 'nse', type: 'scale', required: true,
+        label: 'Nivel socioeconómico del área',
+        hint: 'Observa los negocios y colonias alrededor',
+        opts: ['D/C- predominante', 'C/C+ mixto', 'A/B predominante'] },
+      { id: 'competencia', type: 'scale', required: false,
+        label: 'Distancia a competidores directos',
+        hint: 'Agencias de autos usados o seminuevos visibles en la zona',
+        opts: ['Hay competidor muy cercano (<1 km)', 'Hay competidores en la zona (1–5 km)', 'Sin competidores visibles (>5 km)'] },
+      { id: 'entorno', type: 'scale', required: false,
+        label: 'Calidad del entorno comercial',
+        hint: 'Tipo de negocios vecinos: centros comerciales, avenidas comerciales, etc.',
+        opts: ['Entorno poco comercial o degradado', 'Entorno mixto, en desarrollo', 'Corredor comercial establecido'] },
+      { id: 'crecimiento', type: 'scale', required: false,
+        label: 'Potencial de crecimiento de la zona',
+        hint: '¿Hay obras, desarrollos nuevos o crecimiento visible?',
+        opts: ['Zona estancada o en declive', 'Zona estable', 'Zona en clara expansión'] },
+    ]
+  },
+  {
+    id: 'accesos',
+    title: 'Accesos vehiculares',
+    desc: 'Esta sección es crítica. Necesitamos saber si los transportes de autos (car carriers) pueden entrar y maniobrar.',
+    photo: { label: 'Fotos de accesos', hint: 'Fotografía todos los accesos vehiculares: entradas, salidas, radios de giro, calles adyacentes.' },
+    questions: [
+      { id: 'acceso_main', type: 'scale', required: true,
+        label: 'Calidad del acceso vehicular principal',
+        hint: 'Tipo de calle por donde entran y salen los vehículos',
+        opts: ['Calle estrecha o con restricciones', 'Calle secundaria, acceso aceptable', 'Avenida principal, acceso amplio'] },
+      { id: 'carrier', type: 'scale', required: true,
+        label: 'Posibilidad de maniobra para car carriers',
+        hint: 'Un car carrier necesita radio de giro libre, sin topes ni columnas bajas. Revisa alturas y anchos',
+        opts: ['Imposible o muy difícil, hay obstáculos', 'Posible con dificultad, maniobra limitada', 'Sin restricciones, maniobra libre'] },
+      { id: 'num_accesos', type: 'scale', required: true,
+        label: 'Número de accesos/salidas disponibles',
+        hint: 'Cuenta las entradas y salidas vehiculares independientes',
+        opts: ['1 acceso mixto (entrada y salida)', '2 accesos o 1 entrada + 1 salida', '3 o más accesos independientes'] },
+      { id: 'altura', type: 'scale', required: true,
+        label: 'Altura libre de accesos (plafones, rampas, bardas)',
+        hint: 'Un car carrier cargado necesita al menos 4.5 m de altura libre',
+        opts: ['Altura insuficiente (<4.5 m)', 'Altura justa (~4.5 m)', 'Altura amplia y sin restricciones'] },
+      { id: 'transporte_pub', type: 'scale', required: false,
+        label: 'Acceso a transporte público para empleados',
+        hint: '¿Hay parada de metro, metrobús o combi cerca del sitio?',
+        opts: ['Lejos, más de 1 km', 'A 400–1,000 m', 'A menos de 400 m'] },
+      { id: 'estacionamiento_clientes', type: 'scale', required: false,
+        label: 'Estacionamiento para clientes y visitas',
+        hint: 'Espacios disponibles para clientes mientras están en la tienda',
+        opts: ['Sin espacio para clientes', 'Espacio limitado o compartido', 'Estacionamiento amplio propio o cercano'] },
+      { id: 'carga_descarga', type: 'scale', required: false,
+        label: 'Zona de carga y descarga dedicada',
+        hint: '¿Hay espacio para que los carriers descarguen sin bloquear la circulación?',
+        opts: ['Sin zona de descarga', 'Zona improvisada o compartida', 'Zona dedicada y apropiada'] },
+    ]
+  },
+  {
+    id: 'espacio',
+    title: 'Espacio físico',
+    desc: 'Levantamiento de las características físicas del inmueble.',
+    photo: { label: 'Fotos del espacio interior/exterior', hint: 'Fotografía el piso, estructura, techos, oficinas o espacios cerrados disponibles.' },
+    questions: [
+      { id: 'm2_total', type: 'scale', required: true,
+        label: 'Superficie total disponible (m²)',
+        hint: 'Flagship necesita mínimo 1,500 m² para operar. Pide el dato al landlord si no puedes medirlo',
+        opts: ['Menos de 1,500 m²', 'Entre 1,500 y 2,500 m²', 'Más de 2,500 m²'] },
+      { id: 'capacidad_autos', type: 'scale', required: true,
+        label: 'Capacidad estimada de autos en exhibición',
+        hint: 'Estima cuántos autos cabrían en el espacio útil',
+        opts: ['Menos de 30 unidades', '30 a 60 unidades', 'Más de 60 unidades'] },
+      { id: 'piso', type: 'scale', required: true,
+        label: 'Tipo y condición del piso',
+        hint: 'El piso debe soportar el peso de los autos y verse presentable',
+        opts: ['Tierra, grava o piso muy deteriorado', 'Asfalto/concreto en estado regular', 'Concreto hidráulico en buen estado'] },
+      { id: 'espacio_cerrado', type: 'scale', required: true,
+        label: 'Superficie techada u oficinas disponibles',
+        hint: 'Para atención a clientes, firma de contratos y área administrativa',
+        opts: ['Sin espacio cerrado', 'Espacio cerrado mínimo (<100 m²)', 'Espacio cerrado amplio (>100 m²)'] },
+      { id: 'estado_general', type: 'scale', required: true,
+        label: 'Estado general del inmueble',
+        hint: 'Cuántas obras o adaptaciones necesitaría para operar',
+        opts: ['Requiere remodelación mayor o construcción', 'Necesita adaptaciones moderadas', 'Listo o casi listo para operar'] },
+      { id: 'seguridad', type: 'scale', required: false,
+        label: 'Seguridad perimetral existente',
+        hint: 'Barda, malla, caseta de vigilancia o acceso controlado',
+        opts: ['Sin seguridad perimetral', 'Seguridad parcial (barda baja o parcial)', 'Barda completa + acceso controlado'] },
+      { id: 'iluminacion', type: 'scale', required: false,
+        label: 'Iluminación del espacio',
+        hint: 'La iluminación impacta en la percepción del cliente y en la seguridad nocturna',
+        opts: ['Sin iluminación o muy deficiente', 'Iluminación básica, necesita mejoras', 'Iluminación adecuada o excelente'] },
+      { id: 'filtraciones', type: 'scale', required: false,
+        label: 'Estado de impermeabilización y filtraciones',
+        hint: 'Revisa techos, paredes y piso en búsqueda de manchas o humedad',
+        opts: ['Filtraciones evidentes o riesgo de inundación', 'Algunos puntos con humedad', 'Sin filtraciones aparentes'] },
+    ]
+  },
+  {
+    id: 'infraestructura',
+    title: 'Infraestructura y servicios',
+    desc: 'Evalúa los servicios básicos disponibles. Puedes apoyarte en el personal del sitio.',
+    photo: { label: 'Fotos de instalaciones', hint: 'Fotografía: tablero eléctrico, tomas de agua, drenaje visible, medidores, y cualquier instalación relevante.' },
+    questions: [
+      { id: 'electrica', type: 'scale', required: true,
+        label: 'Capacidad eléctrica disponible (kVA)',
+        hint: 'Pregunta al administrador cuántos kVA tiene la acometida. Mínimo necesitamos 60 kVA',
+        opts: ['Menos de 30 kVA o sin información', '30 a 60 kVA, requiere ampliación', 'Más de 60 kVA disponibles'] },
+      { id: 'subestacion', type: 'scale', required: true,
+        label: 'Disponibilidad de subestación eléctrica o espacio para transformador',
+        hint: 'Pregunta si hay subestación propia o espacio para instalar un transformador de CFE',
+        opts: ['Sin subestación y sin espacio', 'Sin subestación pero hay espacio posible', 'Subestación disponible o asignada'] },
+      { id: 'agua', type: 'scale', required: true,
+        label: 'Suministro de agua potable',
+        hint: 'Necesaria para baños y área de detailing básico',
+        opts: ['Sin acceso a agua o muy limitado', 'Acceso con limitaciones', 'Agua disponible sin problemas'] },
+      { id: 'drenaje', type: 'scale', required: true,
+        label: 'Drenaje sanitario',
+        hint: 'Pregunta si hay conexión a red municipal o fosa séptica',
+        opts: ['Sin drenaje', 'Drenaje limitado o fosa séptica', 'Red municipal de drenaje'] },
+      { id: 'internet', type: 'scale', required: false,
+        label: 'Conectividad a internet / fibra óptica',
+        hint: 'Verifica si hay servicios de fibra disponibles en la zona',
+        opts: ['Solo señal móvil', 'Cable o ADSL disponible', 'Fibra óptica disponible'] },
+      { id: 'gas', type: 'scale', required: false,
+        label: 'Disponibilidad de gas natural o LP',
+        hint: 'Para calentadores, equipo de taller básico, etc.',
+        opts: ['Sin gas, difícil acceso', 'Gas LP disponible', 'Gas natural disponible'] },
+    ]
+  },
+  {
+    id: 'branding',
+    title: 'Branding y fachada',
+    desc: 'Evalúa el potencial de visibilidad de marca y comunicación exterior.',
+    photo: { label: 'Fotos de fachadas y áreas de branding', hint: 'Fotografía todas las bardas, fachadas y superficies donde podría ir publicidad o señalética KAVAK.' },
+    questions: [
+      { id: 'fachada', type: 'scale', required: true,
+        label: 'Superficie de fachada disponible para branding',
+        hint: 'Metros lineales de fachada sobre la calle principal donde puede ir señalética KAVAK',
+        opts: ['Menos de 10 metros lineales', 'Entre 10 y 25 metros', 'Más de 25 metros lineales'] },
+      { id: 'rotulo', type: 'scale', required: true,
+        label: 'Posibilidad de instalar anuncio espectacular o rótulo',
+        hint: 'Pregunta al landlord si permite letras 3D, lona o espectacular exterior',
+        opts: ['No permite ningún tipo de anuncio', 'Permite señalética limitada', 'Permite anuncio grande y visible'] },
+      { id: 'visibilidad_noche', type: 'scale', required: false,
+        label: 'Visibilidad nocturna del sitio',
+        hint: 'Iluminación exterior de la calle y del sitio en horario nocturno',
+        opts: ['Sin iluminación exterior, difícil de ver de noche', 'Visibilidad moderada de noche', 'Bien iluminado, visible de noche'] },
+      { id: 'imagen', type: 'scale', required: false,
+        label: 'Imagen y presentación actual del sitio',
+        hint: '¿Cómo se ve el lugar actualmente? ¿Transmitiría confianza a un cliente de KAVAK?',
+        opts: ['Imagen muy descuidada o deteriorada', 'Imagen aceptable, necesita trabajo', 'Imagen limpia y profesional'] },
+      { id: 'landmark', type: 'scale', required: false,
+        label: 'Potencial como landmark / punto de referencia',
+        hint: '¿Es un sitio que la gente recordaría o usaría como punto de referencia en la ciudad?',
+        opts: ['Sin potencial de landmark', 'Algo reconocible en la zona', 'Sitio icónico o hito de la ciudad'] },
+    ]
+  },
+  {
+    id: 'dealbreakers',
+    title: 'Deal-breakers',
+    desc: 'Responde con honestidad. Cualquier "Sí" en esta sección resulta en descarte automático del sitio.',
+    photo: null,
+    questions: [
+      { id: 'db1', type: 'yesno', required: true, dealbreaker: true,
+        label: '¿El acceso para car carriers es físicamente imposible o inviable sin solución clara?',
+        hint: 'Altura insuficiente, radio de giro imposible, sin alternativa aparente' },
+      { id: 'db2', type: 'yesno', required: true, dealbreaker: true,
+        label: '¿El espacio total es menor a 1,500 m² sin posibilidad de expansión?',
+        hint: 'Considera solo el área útil real, no la que podría estar disponible a futuro' },
+      { id: 'db3', type: 'yesno', required: true, dealbreaker: true,
+        label: '¿Hay un litigio activo, embargo o señal de conflicto legal sobre el inmueble?',
+        hint: 'Carteles, sellos de autoridades, avisos legales, o el landlord mencionó disputas' },
+      { id: 'db4', type: 'yesno', required: true, dealbreaker: true,
+        label: '¿Existe alguna restricción municipal explícita para venta de autos en la zona?',
+        hint: 'Uso de suelo prohibitivo, zona exclusivamente residencial o industrial sin comercio' },
+      { id: 'db5', type: 'yesno', required: true, dealbreaker: true,
+        label: '¿Hay riesgo de inundación grave o daño estructural evidente?',
+        hint: 'Nivel de hundimiento visible, grietas estructurales mayores, zona de inundación recurrente' },
+      { id: 'db6', type: 'yesno', required: true, dealbreaker: true,
+        label: '¿El landlord rechaza claramente un contrato mínimo de 3 años?',
+        hint: 'Si el landlord solo acepta contratos anuales o con cláusulas de salida muy cortas' },
+      { id: 'db7', type: 'yesno', required: true, dealbreaker: true,
+        label: '¿El sitio está ubicado en una zona de alta inseguridad o con presencia de actividad delictiva?',
+        hint: 'Zonas de riesgo conocido que afecten la operación y seguridad del personal' },
+    ]
+  }
+];
+
+const CAMPER_SECTIONS = [
+  {
+    id: 'datos',
+    title: 'Datos del sitio',
+    desc: 'Información básica del estacionamiento o espacio que estás evaluando.',
+    photo: null,
+    questions: [
+      { id: 'nombre', type: 'text', label: 'Nombre del sitio / estacionamiento', required: true },
+      { id: 'ancla', type: 'text', label: 'Ancla comercial principal (Walmart, OXXO, etc.)', required: true },
+      { id: 'ciudad', type: 'text', label: 'Ciudad / Estado', required: true },
+      { id: 'evaluador', type: 'text', label: 'Nombre del evaluador', required: true },
+      { id: 'admin', type: 'text', label: 'Contacto del administrador del estacionamiento', required: false },
+    ]
+  },
+  {
+    id: 'ancla',
+    title: 'Ancla comercial y contexto',
+    desc: 'El ancla comercial determina el tipo de cliente que visita el sitio. Evalúa la compatibilidad con el perfil KAVAK.',
+    photo: { label: 'Fotos del ancla y contexto', hint: 'Fotografía la fachada del ancla principal, el estacionamiento completo, y los accesos de la plaza.' },
+    questions: [
+      { id: 'tipo_ancla', type: 'scale', required: true,
+        label: 'Tipo y perfil del ancla comercial',
+        hint: 'Considera si el ancla atrae al perfil de comprador KAVAK: familias C+, adultos de 25-45 años',
+        opts: ['Tienda de barrio o mercado, perfil bajo', 'Supermercado medio o farmacia, perfil C', 'Walmart, Liverpool, Chedraui, perfil C+/B'] },
+      { id: 'afluencia', type: 'scale', required: true,
+        label: 'Afluencia de personas en el estacionamiento',
+        hint: 'Observa durante tu visita cuántas personas y carros hay en el estacionamiento',
+        opts: ['Poco tráfico, estacionamiento casi vacío', 'Tráfico moderado, siempre hay personas', 'Alto tráfico, estacionamiento muy concurrido'] },
+      { id: 'horario', type: 'scale', required: true,
+        label: 'Horario de operación del ancla / estacionamiento',
+        hint: 'Pregunta cuántas horas al día opera el estacionamiento y si es 7 días',
+        opts: ['Horario reducido (<10 hrs/día o no 7 días)', 'Horario amplio (10-14 hrs/día, 7 días)', 'Horario extendido (>14 hrs, incluyendo noches y festivos)'] },
+      { id: 'nse_camper', type: 'scale', required: true,
+        label: 'Nivel socioeconómico del área de influencia',
+        hint: 'Observa las colonias alrededor y el tipo de vehículos en el estacionamiento',
+        opts: ['D/C- predominante', 'C/C+ mixto', 'A/B predominante'] },
+      { id: 'competencia_camper', type: 'scale', required: false,
+        label: 'Presencia de competidores directos en la zona',
+        hint: 'Agencias o módulos de autos usados visibles en un radio de 2 km',
+        opts: ['Competidor muy cercano o en el mismo estacionamiento', 'Algún competidor en la zona (1–3 km)', 'Sin competidores visibles'] },
+      { id: 'imagen_plaza', type: 'scale', required: false,
+        label: 'Imagen y mantenimiento del estacionamiento',
+        hint: '¿El estacionamiento está limpio y mantenido? ¿Transmitiría confianza a un cliente de KAVAK?',
+        opts: ['Descuidado, con basura o en mal estado', 'Aceptable, necesita algunos trabajos', 'Limpio, bien mantenido y señalizado'] },
+    ]
+  },
+  {
+    id: 'espacio_camper',
+    title: 'Espacio disponible',
+    desc: 'Evalúa el espacio concreto que tendría el módulo KAVAK dentro del estacionamiento.',
+    photo: { label: 'Fotos del espacio disponible', hint: 'Fotografía el área exacta donde iría el módulo, desde varios ángulos, incluyendo medidas aproximadas.' },
+    questions: [
+      { id: 'cajones', type: 'scale', required: true,
+        label: 'Número de cajones disponibles para KAVAK',
+        hint: 'Pregunta cuántos cajones podrían asignarse exclusivamente para KAVAK (módulo + exhibición)',
+        opts: ['5 cajones o menos', 'Entre 6 y 15 cajones', 'Más de 15 cajones'] },
+      { id: 'ubicacion_espacio', type: 'scale', required: true,
+        label: 'Ubicación del espacio dentro del estacionamiento',
+        hint: 'Cuán visible y accesible es el espacio asignado desde los accesos principales',
+        opts: ['Esquina trasera o poco visible', 'Zona intermedia, accesible pero no prime', 'Zona prime, cerca de acceso principal o fachada'] },
+      { id: 'acceso_contenedor', type: 'scale', required: true,
+        label: 'Acceso para delivery del contenedor/camper',
+        hint: 'El contenedor llega en un trailer. ¿Puede maniobrar dentro del estacionamiento para dejarlo?',
+        opts: ['Sin posibilidad de ingreso de trailer', 'Con dificultad, posible en horario especial', 'Sin restricciones para ingreso de trailer'] },
+      { id: 'area_modulo', type: 'scale', required: true,
+        label: 'Espacio para el módulo de atención (contenedor)',
+        hint: 'El módulo necesita un área de al menos 6x3 m para instalarse',
+        opts: ['Espacio muy limitado, ajustado', 'Espacio suficiente para el módulo básico', 'Espacio amplio, posibilidad de expansión'] },
+      { id: 'conexion_electrica', type: 'scale', required: true,
+        label: 'Acceso a toma eléctrica para el módulo',
+        hint: 'El contenedor necesita al menos 15-20 kVA. Pregunta al administrador si pueden proveer toma',
+        opts: ['Sin acceso a electricidad', 'Con gestión posible, no inmediata', 'Toma disponible o administrador dispuesto a proveer'] },
+      { id: 'exclusividad', type: 'scale', required: false,
+        label: 'Posibilidad de exclusividad en el nicho de autos',
+        hint: '¿Está dispuesto el administrador a no rentar espacio a otro módulo de autos usados?',
+        opts: ['No acepta exclusividad', 'Está en negociación / no lo ha discutido', 'Acepta exclusividad para KAVAK'] },
+    ]
+  },
+  {
+    id: 'flujo',
+    title: 'Flujo y visibilidad',
+    desc: 'Evalúa qué tan visible y accesible será el módulo KAVAK para los clientes que visiten el estacionamiento.',
+    photo: { label: 'Fotos de flujo y visibilidad', hint: 'Fotografía el flujo de peatones, la señalética existente del estacionamiento, y la visibilidad desde la entrada.' },
+    questions: [
+      { id: 'visibilidad_entrada', type: 'scale', required: true,
+        label: 'Visibilidad del espacio desde la entrada del estacionamiento',
+        hint: '¿Se vería el módulo KAVAK desde donde entra la gente?',
+        opts: ['No se ve desde la entrada', 'Parcialmente visible', 'Totalmente visible desde la entrada'] },
+      { id: 'flujo_peatonal', type: 'scale', required: true,
+        label: 'Flujo peatonal cercano al espacio',
+        hint: 'Cuánta gente camina cerca del área asignada al ir hacia/desde el ancla',
+        opts: ['Poco flujo, área marginal', 'Flujo moderado', 'Alto flujo, en ruta directa al ancla'] },
+      { id: 'branding_camper', type: 'scale', required: true,
+        label: 'Posibilidad de señalética y branding KAVAK en el estacionamiento',
+        hint: 'Pregunta si pueden poner lonas, banners o señalética para guiar a clientes hacia el módulo',
+        opts: ['No permite ningún tipo de señalética', 'Permite señalética limitada', 'Permite branding amplio dentro del estacionamiento'] },
+      { id: 'parqueo_clientes', type: 'scale', required: false,
+        label: 'Cajones de exhibición visibles desde zonas de paso',
+        hint: 'Los autos de exhibición ayudan a atraer atención. ¿Estarán en zonas donde la gente los vea?',
+        opts: ['Cajones en zona poco vista', 'Cajones en zona de tráfico medio', 'Cajones en zona de alto tráfico peatonal'] },
+      { id: 'dias_operacion', type: 'scale', required: false,
+        label: '¿Permite el estacionamiento operación de lunes a domingo?',
+        hint: 'Algunos estacionamientos tienen restricciones de horario o días para módulos de terceros',
+        opts: ['Solo días hábiles', 'Incluye sábado', 'Lunes a domingo sin restricción'] },
+      { id: 'seguridad_camper', type: 'scale', required: false,
+        label: 'Seguridad del estacionamiento',
+        hint: 'Cámaras, vigilantes, caseta de control: protección para los autos en exhibición',
+        opts: ['Sin seguridad visible', 'Seguridad básica (un vigilante)', 'Seguridad robusta (cámaras + vigilantes + caseta)'] },
+    ]
+  },
+  {
+    id: 'infra_camper',
+    title: 'Infraestructura básica',
+    desc: 'Servicios mínimos que necesita el módulo para operar.',
+    photo: { label: 'Fotos de infraestructura', hint: 'Fotografía: medidores de luz, tomas de agua, drenaje, y cualquier instalación disponible cerca del espacio.' },
+    questions: [
+      { id: 'luz_disponible', type: 'scale', required: true,
+        label: 'Disponibilidad de suministro eléctrico',
+        hint: 'El módulo necesita luz para operar. Pregunta si pueden derivar una toma del estacionamiento',
+        opts: ['Sin posibilidad de toma eléctrica', 'Posible pero con trámite y costo', 'Disponible o administrador lo ofrece'] },
+      { id: 'agua_camper', type: 'scale', required: false,
+        label: 'Acceso a agua potable',
+        hint: 'Para baños y limpieza básica del módulo',
+        opts: ['Sin acceso a agua', 'Acceso limitado o con trámite', 'Agua disponible cerca del espacio'] },
+      { id: 'drenaje_camper', type: 'scale', required: false,
+        label: 'Drenaje o desagüe disponible',
+        hint: 'Para el módulo de atención y limpieza',
+        opts: ['Sin drenaje', 'Con gestión posible', 'Drenaje disponible'] },
+      { id: 'internet_camper', type: 'scale', required: false,
+        label: 'Conectividad a internet en la zona',
+        hint: 'Señal de datos móviles, o posibilidad de extender WiFi del ancla',
+        opts: ['Señal móvil muy débil', 'Señal móvil aceptable', 'Fibra o WiFi del establecimiento disponible'] },
+      { id: 'banos', type: 'scale', required: false,
+        label: 'Acceso a sanitarios para personal',
+        hint: 'Los empleados del módulo necesitan acceso a baños. ¿El ancla o el estacionamiento los permite?',
+        opts: ['Sin acceso a sanitarios', 'Acceso posible pero no garantizado', 'Sanitarios disponibles para uso del módulo'] },
+    ]
+  },
+  {
+    id: 'dealbreakers_camper',
+    title: 'Deal-breakers',
+    desc: 'Responde con honestidad. Cualquier "Sí" en esta sección resulta en descarte automático.',
+    photo: null,
+    questions: [
+      { id: 'db1', type: 'yesno', required: true, dealbreaker: true,
+        label: '¿El administrador o dueño del estacionamiento rechaza la operación de KAVAK?',
+        hint: 'Si el responsable del espacio claramente no quiere o no puede aceptar el módulo' },
+      { id: 'db2', type: 'yesno', required: true, dealbreaker: true,
+        label: '¿Es imposible proveer electricidad al módulo (sin ninguna alternativa)?',
+        hint: 'Sin toma eléctrica y sin posibilidad de instalar generador o acuerdo con el ancla' },
+      { id: 'db3', type: 'yesno', required: true, dealbreaker: true,
+        label: '¿El acceso para el trailer de entrega del contenedor es físicamente imposible?',
+        hint: 'Sin radio de giro suficiente o con barreras físicas que impiden el ingreso del trailer' },
+      { id: 'db4', type: 'yesno', required: true, dealbreaker: true,
+        label: '¿Hay una restricción municipal o del ancla para operar módulos de venta de autos?',
+        hint: 'Si el municipio, el fideicomiso o el ancla tienen reglas que prohíben este tipo de operación' },
+      { id: 'db5', type: 'yesno', required: true, dealbreaker: true,
+        label: '¿El espacio disponible es tan reducido que no cabe ni el módulo básico (6x3 m)?',
+        hint: 'Sin espacio físico para instalar ni el contenedor base de KAVAK' },
+      { id: 'db6', type: 'yesno', required: true, dealbreaker: true,
+        label: '¿La zona tiene un nivel de inseguridad que pone en riesgo el personal y los vehículos?',
+        hint: 'Zona de alto riesgo conocido, robos frecuentes o contexto de crimen organizado' },
+    ]
+  }
+];
+
+// ══════════════════════════════════════════
+// STATE
+// ══════════════════════════════════════════
+let currentModel = null;
+let currentSections = [];
+let currentSection = 0;
+let answers = {};
+let photoData = {};
+let dealbreakersTriggered = [];
+let allSurveys = [];
+let dashFilter = 'all';
+
+// ══════════════════════════════════════════
+// VIEWS
+// ══════════════════════════════════════════
+function showHome() {
+  hide('view-survey'); hide('view-result'); hide('view-dashboard');
+  show('view-home');
+  setActiveDash('');
+}
+function showDashboard() {
+  hide('view-home'); hide('view-survey'); hide('view-result');
+  show('view-dashboard');
+  setActiveDash('btn-to-dash');
+  loadDashboard();
+}
+function hide(id) { document.getElementById(id).classList.add('hidden'); }
+function show(id) { document.getElementById(id).classList.remove('hidden'); }
+function setActiveDash(activeId) {
+  ['btn-to-home','btn-to-dash'].forEach(id => document.getElementById(id).classList.remove('active'));
+  if (activeId) document.getElementById(activeId).classList.add('active');
+}
+
+// ══════════════════════════════════════════
+// SURVEY LOGIC
+// ══════════════════════════════════════════
+function startSurvey(model) {
+  currentModel = model;
+  currentSections = model === 'flagship' ? FLAGSHIP_SECTIONS : CAMPER_SECTIONS;
+  currentSection = 0;
+  answers = {};
+  photoData = {};
+  dealbreakersTriggered = [];
+  hide('view-home');
+  show('view-survey');
+  renderSection();
+}
+
+function renderSection() {
+  const sec = currentSections[currentSection];
+  const total = currentSections.length;
+  const pct = ((currentSection + 1) / total * 100).toFixed(0);
+  document.getElementById('progress-fill').style.width = pct + '%';
+
+  const btn = document.getElementById('btn-next');
+  btn.className = 'btn-next' + (currentModel === 'camper' ? ' camper' : '');
+  btn.textContent = currentSection === total - 1 ? 'Ver resultado →' : 'Continuar →';
+  document.getElementById('btn-back').style.display = currentSection === 0 ? 'none' : 'block';
+
+  let html = `
+    <div class="section-header">
+      <div class="section-eyebrow">Sección ${currentSection + 1} de ${total}</div>
+      <div class="section-title">${sec.title}</div>
+      <div class="section-desc">${sec.desc}</div>
+    </div>`;
+
+  sec.questions.forEach(q => {
+    html += renderQuestion(q);
+  });
+
+  if (sec.photo) {
+    html += renderPhotoBlock(sec.id, sec.photo);
+  }
+
+  document.getElementById('section-container').innerHTML = html;
+  document.getElementById('section-container').scrollTop = 0;
+  window.scrollTo(0, 0);
+
+  // Restore answers
+  sec.questions.forEach(q => {
+    const saved = answers[q.id];
+    if (saved !== undefined) {
+      if (q.type === 'text') {
+        const el = document.getElementById('inp-' + q.id);
+        if (el) el.value = saved;
+      } else if (q.type === 'scale') {
+        const btn = document.querySelector(`.scale-btn[data-qid="${q.id}"][data-val="${saved}"]`);
+        if (btn) btn.classList.add('selected-' + saved);
+      } else if (q.type === 'yesno') {
+        const btnEl = document.querySelector(`.yesno-btn[data-qid="${q.id}"][data-val="${saved}"]`);
+        if (btnEl) {
+          btnEl.classList.add(saved === 'yes' ? 'sel-yes' : 'sel-no');
+          if (saved === 'yes' && q.dealbreaker) {
+            const warn = document.getElementById('warn-' + q.id);
+            if (warn) warn.style.display = 'block';
+          }
+        }
+      }
+    }
+  });
+
+  // Restore photos count
+  if (sec.photo && photoData[sec.id]) {
+    const cnt = document.getElementById('photo-count-' + sec.id);
+    if (cnt) { cnt.textContent = photoData[sec.id] + ' foto(s) cargada(s)'; cnt.style.display = 'block'; }
+  }
+}
+
+function renderQuestion(q) {
+  const isReq = q.required;
+  const badge = isReq ? `<span class="q-required-badge${currentModel === 'camper' ? ' camper' : ''}">OBLIGATORIA</span>` : '';
+  let inner = '';
+
+  if (q.type === 'text') {
+    inner = `<input type="text" class="text-input" id="inp-${q.id}" placeholder="Escribe aquí..." oninput="answers['${q.id}']=this.value">`;
+  } else if (q.type === 'scale') {
+    const labels = q.opts || ['No cumple', 'Cumple parcialmente', 'Cumple totalmente'];
+    inner = `<div class="scale-options">
+      ${[1,2,3].map(v => `
+        <div class="scale-btn" data-qid="${q.id}" data-val="${v}" onclick="selectScale('${q.id}', ${v})">
+          <span class="scale-num">${v}</span>
+          <span class="scale-label">${labels[v-1]}</span>
+        </div>`).join('')}
+    </div>`;
+  } else if (q.type === 'yesno') {
+    inner = `<div class="yesno-options">
+      <div class="yesno-btn" data-qid="${q.id}" data-val="yes" onclick="selectYesno('${q.id}','yes',${q.dealbreaker || false})">Sí</div>
+      <div class="yesno-btn" data-qid="${q.id}" data-val="no" onclick="selectYesno('${q.id}','no',${q.dealbreaker || false})">No</div>
+    </div>
+    ${q.dealbreaker ? `<div class="dealbreaker-warning" id="warn-${q.id}">⚠ Deal-breaker activado. Este sitio quedará marcado como NO GO.</div>` : ''}`;
+  }
+
+  return `
+    <div class="question-block${isReq ? ' required' + (currentModel === 'camper' ? ' camper' : '') : ''}">
+      <div class="q-label">${q.label}${badge}</div>
+      ${q.hint ? `<div class="q-hint">${q.hint}</div>` : ''}
+      ${inner}
+    </div>`;
+}
+
+function renderPhotoBlock(secId, photo) {
+  return `
+    <div class="photo-section">
+      <div class="photo-title">📷 ${photo.label}</div>
+      <div class="photo-subtitle">${photo.hint}</div>
+      <label class="photo-upload-btn">
+        <input type="file" accept="image/*" multiple capture="environment" style="display:none" onchange="handlePhotos('${secId}', this)">
+        Agregar fotos desde cámara o galería
+      </label>
+      <div class="photo-count" id="photo-count-${secId}"></div>
+      <div class="photo-grid" id="photo-grid-${secId}"></div>
+    </div>`;
+}
+
+function selectScale(qid, val) {
+  document.querySelectorAll(`.scale-btn[data-qid="${qid}"]`).forEach(b => {
+    b.className = 'scale-btn';
+  });
+  const btn = document.querySelector(`.scale-btn[data-qid="${qid}"][data-val="${val}"]`);
+  if (btn) btn.classList.add('selected-' + val);
+  answers[qid] = val;
+}
+
+function selectYesno(qid, val, isDb) {
+  document.querySelectorAll(`.yesno-btn[data-qid="${qid}"]`).forEach(b => {
+    b.className = 'yesno-btn';
+  });
+  const btn = document.querySelector(`.yesno-btn[data-qid="${qid}"][data-val="${val}"]`);
+  if (btn) btn.classList.add(val === 'yes' ? 'sel-yes' : 'sel-no');
+  answers[qid] = val;
+  if (isDb) {
+    const warn = document.getElementById('warn-' + qid);
+    if (warn) warn.style.display = val === 'yes' ? 'block' : 'none';
+  }
+}
+
+function handlePhotos(secId, input) {
+  const files = Array.from(input.files);
+  photoData[secId] = (photoData[secId] || 0) + files.length;
+  const cnt = document.getElementById('photo-count-' + secId);
+  if (cnt) { cnt.textContent = photoData[secId] + ' foto(s) cargada(s)'; cnt.style.display = 'block'; }
+  const grid = document.getElementById('photo-grid-' + secId);
+  files.forEach(f => {
+    const reader = new FileReader();
+    reader.onload = e => {
+      const img = document.createElement('img');
+      img.src = e.target.result;
+      img.className = 'photo-thumb';
+      grid.appendChild(img);
+    };
+    reader.readAsDataURL(f);
+  });
+}
+
+function nextSection() {
+  const sec = currentSections[currentSection];
+  // Validate required fields
+  for (const q of sec.questions) {
+    if (q.required && answers[q.id] === undefined) {
+      alert('Por favor responde todas las preguntas obligatorias antes de continuar.');
+      return;
+    }
+  }
+  if (currentSection < currentSections.length - 1) {
+    currentSection++;
+    renderSection();
+  } else {
+    finishSurvey();
+  }
+}
+
+function prevSection() {
+  if (currentSection > 0) { currentSection--; renderSection(); }
+  else { showHome(); }
+}
+
+// ══════════════════════════════════════════
+// SCORING
+// ══════════════════════════════════════════
+function finishSurvey() {
+  const secs = currentSections;
+  const dbSection = secs.find(s => s.id === 'dealbreakers' || s.id === 'dealbreakers_camper');
+  const dbsTriggered = [];
+
+  if (dbSection) {
+    dbSection.questions.forEach(q => {
+      if (answers[q.id] === 'yes') dbsTriggered.push(q.label);
+    });
+  }
+
+  // Compute section scores
+  const breakdown = [];
+  let totalScore = 0;
+  let totalMax = 0;
+
+  secs.forEach(sec => {
+    if (sec.id === 'datos' || sec.id === 'dealbreakers' || sec.id === 'dealbreakers_camper') return;
+    const scaleQs = sec.questions.filter(q => q.type === 'scale');
+    if (scaleQs.length === 0) return;
+    let secScore = 0;
+    let secMax = scaleQs.length * 3;
+    scaleQs.forEach(q => { if (answers[q.id]) secScore += answers[q.id]; });
+    const pct = Math.round(secScore / secMax * 100);
+    breakdown.push({ name: sec.title, score: secScore, max: secMax, pct });
+    totalScore += secScore;
+    totalMax += secMax;
+  });
+
+  const pctTotal = Math.round(totalScore / totalMax * 100);
+  let verdict, color;
+  if (dbsTriggered.length > 0) { verdict = 'NO GO'; color = 'nogo'; }
+  else if (pctTotal >= 75) { verdict = 'GO ✓'; color = 'green'; }
+  else if (pctTotal >= 55) { verdict = 'GO* con condiciones'; color = 'yellow'; }
+  else { verdict = 'NO GO por score'; color = 'red'; }
+
+  const siteName = answers['nombre'] || 'Sin nombre';
+  const ciudad = answers['ciudad'] || '';
+  const evaluador = answers['evaluador'] || '';
+
+  const survey = {
+    id: Date.now(),
+    model: currentModel,
+    name: siteName,
+    ciudad,
+    evaluador,
+    date: new Date().toLocaleDateString('es-MX'),
+    pct: pctTotal,
+    verdict,
+    color,
+    breakdown,
+    dealbreakers: dbsTriggered,
+    answers: { ...answers }
+  };
+
+  saveSurvey(survey);
+  renderResult(survey);
+}
+
+function renderResult(s) {
+  hide('view-survey');
+  show('view-result');
+
+  const semColors = { green: '#1a7f4b', yellow: '#b85c00', red: '#c0392b', nogo: '#ff6b6b' };
+  const verdictLabels = { green: '✅ PROCEDER', yellow: '⚠️ PROCEDER CON CONDICIONES', red: '🚫 DESCARTAR', nogo: '⛔ NO GO — DEAL-BREAKER ACTIVADO' };
+
+  let dbHtml = '';
+  if (s.dealbreakers.length > 0) {
+    dbHtml = `<div class="result-dealbreaker-list">${s.dealbreakers.map(d =>
+      `<div class="db-item"><div class="db-dot"></div><span>${d}</span></div>`).join('')}</div>`;
+  }
+
+  let breakdownHtml = s.breakdown.map(b => {
+    const barColor = b.pct >= 75 ? '#1a7f4b' : b.pct >= 55 ? '#b85c00' : '#c0392b';
+    return `
+      <div class="breakdown-row">
+        <div class="breakdown-name">${b.name}</div>
+        <div class="breakdown-bar-wrap"><div class="breakdown-bar" style="width:${b.pct}%;background:${barColor}"></div></div>
+        <div class="breakdown-pct">${b.pct}%</div>
+      </div>`;
+  }).join('');
+
+  document.getElementById('result-container').innerHTML = `
+    <div style="font-family:var(--mono);font-size:11px;color:var(--gray-400);margin-bottom:16px;letter-spacing:0.05em">${s.name} · ${s.ciudad} · ${s.date}</div>
+    <div class="result-score-card ${s.color}">
+      <div class="result-verdict">${verdictLabels[s.color]}</div>
+      <div class="result-number">${s.color === 'nogo' ? '⛔' : s.pct + '%'}</div>
+      <div class="result-label">${s.color !== 'nogo' ? 'del score máximo posible' : 'Deal-breaker activado — descarte automático'}</div>
+      ${dbHtml}
+    </div>
+    ${s.breakdown.length > 0 ? `
+    <div style="font-family:var(--mono);font-size:10px;color:var(--gray-400);letter-spacing:0.08em;margin-bottom:8px;text-transform:uppercase">Desglose por sección</div>
+    <div class="result-breakdown">${breakdownHtml}</div>` : ''}
+    <div class="result-actions">
+      <button class="btn-primary" onclick="showDashboard()">Ver dashboard completo</button>
+      <button class="btn-secondary" onclick="startSurvey('${s.model}')">+ Nueva evaluación (mismo modelo)</button>
+      <button class="btn-secondary" onclick="showHome()">Evaluar otra ubicación</button>
+    </div>`;
+}
+
+// ══════════════════════════════════════════
+// PERSISTENCE
+// ══════════════════════════════════════════
+const APPS_SCRIPT_URL = 'https://script.google.com/a/macros/kavak.com/s/AKfycbwgnrV-X8-SwqD46suwdMXV5acQDx-fiRfVB_7IgxNixsMN7VCasPJp1CMOzRhJjtji/exec';
+
+function showSyncStatus(msg, color) {
+  let el = document.getElementById('sync-status');
+  if (!el) {
+    el = document.createElement('div');
+    el.id = 'sync-status';
+    el.style.cssText = 'position:fixed;bottom:80px;left:50%;transform:translateX(-50%);background:var(--black);color:var(--white);font-family:var(--mono);font-size:11px;padding:8px 16px;border-radius:20px;z-index:200;transition:opacity 0.4s;white-space:nowrap';
+    document.body.appendChild(el);
+  }
+  el.textContent = msg;
+  el.style.color = color || 'var(--white)';
+  el.style.opacity = '1';
+  setTimeout(() => { el.style.opacity = '0'; }, 3000);
+}
+
+async function saveSurvey(survey) {
+  // 1. Guardar localmente primero (backup inmediato)
+  allSurveys.unshift(survey);
+  try { await window.storage.set('surveys_local', JSON.stringify(allSurveys)); } catch(e) {}
+
+  // 2. Enviar a Google Sheets
+  showSyncStatus('⏳ Sincronizando con Google Sheets...');
+  const payload = {
+    id:          survey.id,
+    fecha:       survey.date,
+    modelo:      survey.model,
+    nombre:      survey.name,
+    ciudad:      survey.ciudad,
+    evaluador:   survey.evaluador,
+    score_pct:   survey.pct,
+    verdict:     survey.verdict,
+    color:       survey.color,
+    dealbreakers: survey.dealbreakers,
+    breakdown:   survey.breakdown,
+    respuestas:  survey.answers
+  };
+
+  try {
+    const res = await fetch(APPS_SCRIPT_URL, {
+      method: 'POST',
+      mode: 'no-cors',
+      headers: { 'Content-Type': 'text/plain' },
+      body: JSON.stringify(payload)
+    });
+    showSyncStatus('✅ Guardado en Google Sheets', '#4ade80');
+  } catch(err) {
+    showSyncStatus('⚠️ Sin conexión — guardado solo local', '#fbbf24');
+    console.warn('Sheet sync error:', err);
+  }
+}
+
+async function loadSurveys() {
+  // Cargar desde caché local (el Sheet es write-only por CORS)
+  try {
+    const res = await window.storage.get('surveys_local');
+    if (res) allSurveys = JSON.parse(res.value);
+  } catch(e) { allSurveys = []; }
+}
+
+// ══════════════════════════════════════════
+// DASHBOARD
+// ══════════════════════════════════════════
+async function loadDashboard() {
+  await loadSurveys();
+  renderDashboard();
+}
+
+function filterDash(el, filter) {
+  dashFilter = filter;
+  document.querySelectorAll('.filter-chip').forEach(c => c.classList.remove('active'));
+  el.classList.add('active');
+  renderDashboard();
+}
+
+function renderDashboard() {
+  const total = allSurveys.length;
+  const greens = allSurveys.filter(s => s.color === 'green').length;
+  const yellows = allSurveys.filter(s => s.color === 'yellow').length;
+  const reds = allSurveys.filter(s => s.color === 'red' || s.color === 'nogo').length;
+
+  document.getElementById('dash-kpis').innerHTML = `
+    <div class="kpi-card"><div class="kpi-num kpi-blue">${total}</div><div class="kpi-label">Total evaluadas</div></div>
+    <div class="kpi-card"><div class="kpi-num kpi-green">${greens}</div><div class="kpi-label">GO ✓</div></div>
+    <div class="kpi-card"><div class="kpi-num kpi-yellow">${yellows}</div><div class="kpi-label">GO* condicionado</div></div>
+    <div class="kpi-card"><div class="kpi-num kpi-red">${reds}</div><div class="kpi-label">No Go / Descarte</div></div>`;
+
+  let filtered = allSurveys;
+  if (dashFilter !== 'all') {
+    if (dashFilter === 'flagship') filtered = allSurveys.filter(s => s.model === 'flagship');
+    else if (dashFilter === 'camper') filtered = allSurveys.filter(s => s.model === 'camper');
+    else if (dashFilter === 'red') filtered = allSurveys.filter(s => s.color === 'red' || s.color === 'nogo');
+    else filtered = allSurveys.filter(s => s.color === dashFilter);
+  }
+
+  if (filtered.length === 0) {
+    document.getElementById('survey-list').innerHTML = `
+      <div class="empty-state">
+        <div class="empty-icon">📍</div>
+        <div class="empty-text">No hay evaluaciones${dashFilter !== 'all' ? ' con este filtro' : ' aún'}.<br>Empieza con una nueva visita.</div>
+      </div>`;
+    return;
+  }
+
+  const semClass = { green: 'sem-green', yellow: 'sem-yellow', red: 'sem-red', nogo: 'sem-nogo' };
+  const tagStyle = { flagship: 'background:#e8f0ff;color:#0047BB', camper: 'background:#e8f8f2;color:#007a4d' };
+  const verdictShort = { green: 'GO ✓', yellow: 'GO*', red: 'No Go', nogo: '⛔ No Go' };
+  const scoreColor = { green: '#1a7f4b', yellow: '#b85c00', red: '#c0392b', nogo: '#c0392b' };
+
+  document.getElementById('survey-list').innerHTML = filtered.map(s => `
+    <div class="survey-item">
+      <div class="survey-semaphore ${semClass[s.color]}"></div>
+      <div class="survey-info">
+        <div class="s-name">${s.name}</div>
+        <div class="s-meta">${s.ciudad} · ${s.date} · ${s.evaluador}</div>
+      </div>
+      <div><span class="survey-model-tag" style="${tagStyle[s.model]}">${s.model.toUpperCase()}</span></div>
+      <div class="survey-score" style="color:${scoreColor[s.color]}">${s.color === 'nogo' ? '⛔' : s.pct + '%'}<br><span style="font-size:10px;color:var(--gray-400)">${verdictShort[s.color]}</span></div>
+    </div>`).join('');
+}
+
+// ══════════════════════════════════════════
+// INIT
+// ══════════════════════════════════════════
+loadSurveys();
+</script>
+</body>
+</html>
