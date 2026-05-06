@@ -544,6 +544,116 @@ body {
 
 /* Utils */
 .hidden { display: none !important; }
+
+/* ── DETAIL VIEW ── */
+.detail-wrap {
+  max-width: 580px;
+  margin: 0 auto;
+  padding: 24px 20px 80px;
+}
+.detail-hero {
+  border-radius: var(--radius);
+  padding: 24px;
+  margin-bottom: 20px;
+  text-align: center;
+}
+.detail-hero.green { background: var(--green-light); border: 2px solid var(--green); }
+.detail-hero.yellow { background: var(--yellow-light); border: 2px solid var(--yellow); }
+.detail-hero.red { background: #fdecea; border: 2px solid var(--red); }
+.detail-hero.nogo { background: var(--black); }
+.detail-hero-verdict { font-family: var(--mono); font-size: 10px; letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 4px; }
+.detail-hero.green .detail-hero-verdict { color: var(--green); }
+.detail-hero.yellow .detail-hero-verdict { color: var(--yellow); }
+.detail-hero.red .detail-hero-verdict, .detail-hero.nogo .detail-hero-verdict { color: #ff6b6b; }
+.detail-hero-score { font-family: var(--display); font-size: 48px; font-weight: 800; letter-spacing: -0.04em; line-height: 1; }
+.detail-hero.green .detail-hero-score { color: var(--green); }
+.detail-hero.yellow .detail-hero-score { color: var(--yellow); }
+.detail-hero.red .detail-hero-score { color: var(--red); }
+.detail-hero.nogo .detail-hero-score { color: #ff6b6b; }
+.detail-hero-name { font-size: 13px; color: var(--gray-600); margin-top: 6px; }
+.detail-hero.nogo .detail-hero-name { color: var(--gray-400); }
+
+.detail-section {
+  background: var(--white);
+  border: 1px solid var(--gray-200);
+  border-radius: var(--radius);
+  overflow: hidden;
+  margin-bottom: 12px;
+}
+.detail-section-header {
+  padding: 14px 16px;
+  background: var(--gray-100);
+  border-bottom: 1px solid var(--gray-200);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.detail-section-title { font-size: 13px; font-weight: 500; }
+.detail-section-pct { font-family: var(--mono); font-size: 12px; }
+.detail-q-row {
+  padding: 12px 16px;
+  border-bottom: 1px solid var(--gray-100);
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 12px;
+  align-items: start;
+}
+.detail-q-row:last-child { border-bottom: none; }
+.detail-q-label { font-size: 13px; color: var(--gray-600); line-height: 1.4; }
+.detail-q-val { font-family: var(--mono); font-size: 12px; font-weight: 500; text-align: right; }
+.val-1 { color: var(--red); }
+.val-2 { color: var(--yellow); }
+.val-3 { color: var(--green); }
+.val-yes { color: var(--red); }
+.val-no { color: var(--green); }
+.val-text { color: var(--black); font-family: var(--body); font-size: 13px; }
+
+.detail-photos-section {
+  background: var(--white);
+  border: 1px solid var(--gray-200);
+  border-radius: var(--radius);
+  padding: 16px;
+  margin-bottom: 12px;
+}
+.detail-photos-title { font-size: 13px; font-weight: 500; margin-bottom: 12px; }
+.detail-photos-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; }
+.detail-photo-thumb { width: 100%; aspect-ratio: 1; object-fit: cover; border-radius: 8px; cursor: pointer; }
+.photo-lightbox {
+  position: fixed; inset: 0; background: rgba(0,0,0,0.92);
+  display: flex; align-items: center; justify-content: center;
+  z-index: 999; padding: 20px;
+}
+.photo-lightbox img { max-width: 100%; max-height: 90vh; border-radius: 8px; object-fit: contain; }
+.photo-lightbox-close {
+  position: absolute; top: 20px; right: 20px;
+  background: rgba(255,255,255,0.1); border: none; border-radius: 50%;
+  width: 36px; height: 36px; color: white; font-size: 18px; cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+}
+
+.detail-db-section {
+  background: #fdecea;
+  border: 1px solid var(--red);
+  border-radius: var(--radius);
+  padding: 16px;
+  margin-bottom: 12px;
+}
+.detail-db-title { font-size: 13px; font-weight: 500; color: var(--red); margin-bottom: 10px; }
+.detail-db-item { font-size: 13px; color: var(--red); margin-bottom: 6px; display: flex; gap: 8px; }
+
+.upload-status {
+  background: var(--white);
+  border: 1px solid var(--gray-200);
+  border-radius: var(--radius);
+  padding: 16px;
+  margin-bottom: 12px;
+  font-size: 13px;
+  color: var(--gray-600);
+}
+.upload-status-title { font-weight: 500; color: var(--black); margin-bottom: 8px; font-size: 14px; }
+.upload-item { display: flex; justify-content: space-between; margin-bottom: 4px; font-family: var(--mono); font-size: 11px; }
+.upload-item .u-ok { color: var(--green); }
+.upload-item .u-pending { color: var(--yellow); }
 </style>
 </head>
 <body>
@@ -602,6 +712,20 @@ body {
 <!-- RESULT -->
 <div id="view-result" class="hidden">
   <div class="result-wrap" id="result-container"></div>
+</div>
+
+<!-- DETAIL VIEW -->
+<div id="view-detail" class="hidden">
+  <div class="detail-wrap" id="detail-container"></div>
+  <div class="nav-buttons">
+    <button class="btn-back" onclick="showDashboard()">← Volver al dashboard</button>
+  </div>
+</div>
+
+<!-- PHOTO LIGHTBOX -->
+<div id="photo-lightbox" class="photo-lightbox hidden" onclick="closeLightbox()">
+  <button class="photo-lightbox-close" onclick="closeLightbox()">✕</button>
+  <img id="lightbox-img" src="" alt="foto">
 </div>
 
 <!-- DASHBOARD -->
@@ -1011,6 +1135,7 @@ const CAMPER_SECTIONS = [
 // STATE
 // ══════════════════════════════════════════
 let currentModel = null;
+let allPhotoData = {}; // surveyId -> {sectionId -> [base64...]}
 let currentSections = [];
 let currentSection = 0;
 let answers = {};
@@ -1023,12 +1148,26 @@ let dashFilter = 'all';
 // VIEWS
 // ══════════════════════════════════════════
 function showHome() {
-  hide('view-survey'); hide('view-result'); hide('view-dashboard');
+  hide('view-survey'); hide('view-result'); hide('view-dashboard'); hide('view-detail');
   show('view-home');
   setActiveDash('');
 }
+function showDetail(surveyId) {
+  const s = allSurveys.find(x => x.id == surveyId);
+  if (!s) return;
+  hide('view-dashboard'); hide('view-home'); hide('view-result'); hide('view-survey');
+  show('view-detail');
+  renderDetail(s);
+}
+function closeLightbox() {
+  document.getElementById('photo-lightbox').classList.add('hidden');
+}
+function openLightbox(src) {
+  document.getElementById('lightbox-img').src = src;
+  document.getElementById('photo-lightbox').classList.remove('hidden');
+}
 function showDashboard() {
-  hide('view-home'); hide('view-survey'); hide('view-result');
+  hide('view-home'); hide('view-survey'); hide('view-result'); hide('view-detail');
   show('view-dashboard');
   setActiveDash('btn-to-dash');
   loadDashboard();
@@ -1186,14 +1325,18 @@ function selectYesno(qid, val, isDb) {
 function handlePhotos(secId, input) {
   const files = Array.from(input.files);
   photoData[secId] = (photoData[secId] || 0) + files.length;
+  if (!photoData['_base64']) photoData['_base64'] = {};
+  if (!photoData['_base64'][secId]) photoData['_base64'][secId] = [];
   const cnt = document.getElementById('photo-count-' + secId);
   if (cnt) { cnt.textContent = photoData[secId] + ' foto(s) cargada(s)'; cnt.style.display = 'block'; }
   const grid = document.getElementById('photo-grid-' + secId);
   files.forEach(f => {
     const reader = new FileReader();
     reader.onload = e => {
+      const src = e.target.result;
+      photoData['_base64'][secId].push(src);
       const img = document.createElement('img');
-      img.src = e.target.result;
+      img.src = src;
       img.className = 'photo-thumb';
       grid.appendChild(img);
     };
@@ -1329,7 +1472,7 @@ function renderResult(s) {
 // ══════════════════════════════════════════
 // PERSISTENCE
 // ══════════════════════════════════════════
-const APPS_SCRIPT_URL = 'https://script.google.com/a/macros/kavak.com/s/AKfycbzogxwq5-LT5KbXYYYg5yZwI4Y4ZOCKDWE0ZVMa4eBturVFFOkFbwurdEbUrzPgL35r/exec';
+const APPS_SCRIPT_URL = 'https://script.google.com/a/macros/kavak.com/s/AKfycbxUzkFRzujq9NnokxU0wpB6bZIQx9Q02nGemedY7YheYFIzl7o3vSKWCwATgY9NWp1M/exec';
 
 function showSyncStatus(msg, color) {
   let el = document.getElementById('sync-status');
@@ -1346,9 +1489,15 @@ function showSyncStatus(msg, color) {
 }
 
 async function saveSurvey(survey) {
-  // 1. Guardar localmente primero (backup inmediato)
+  // 1. Guardar fotos en allPhotoData para vista de detalle
+  if (photoData['_base64']) {
+    allPhotoData[survey.id] = { ...photoData['_base64'] };
+  }
+
+  // 2. Guardar localmente primero (backup inmediato)
   allSurveys.unshift(survey);
   try { await window.storage.set('surveys_local', JSON.stringify(allSurveys)); } catch(e) {}
+  try { await window.storage.set('photos_local', JSON.stringify(allPhotoData)); } catch(e) {}
 
   // 2. Enviar a Google Sheets
   showSyncStatus('⏳ Sincronizando con Google Sheets...');
@@ -1394,18 +1543,83 @@ async function saveSurvey(survey) {
     }, 5000);
 
     showSyncStatus('✅ Guardado en Google Sheets', '#4ade80');
+
+    // Upload photos to Drive via Apps Script
+    if (photoData['_base64'] && Object.keys(photoData['_base64']).length > 0) {
+      uploadPhotosToDrive(survey, photoData['_base64']);
+    }
   } catch(err) {
     showSyncStatus('⚠️ Sin conexión — guardado solo local', '#fbbf24');
     console.warn('Sheet sync error:', err);
   }
 }
 
+async function uploadPhotosToDrive(survey, photos) {
+  showSyncStatus('📤 Subiendo fotos a Drive...');
+  const sectionNames = Object.keys(photos);
+  let uploaded = 0;
+
+  for (const secId of sectionNames) {
+    const imgs = photos[secId];
+    if (!imgs || imgs.length === 0) continue;
+
+    for (let i = 0; i < imgs.length; i++) {
+      try {
+        const base64 = imgs[i].split(',')[1];
+        const mimeType = imgs[i].split(';')[0].split(':')[1];
+        const drivePayload = {
+          action: 'uploadPhoto',
+          surveyId: survey.id,
+          siteName: survey.name,
+          sectionId: secId,
+          photoIndex: i + 1,
+          base64: base64,
+          mimeType: mimeType,
+          modelo: survey.model
+        };
+
+        const iframe = document.createElement('iframe');
+        iframe.name = 'drive_iframe_' + Date.now();
+        iframe.style.display = 'none';
+        document.body.appendChild(iframe);
+
+        const form = document.createElement('form');
+        form.method = 'POST';
+        form.action = APPS_SCRIPT_URL;
+        form.target = iframe.name;
+        form.style.display = 'none';
+
+        const input = document.createElement('input');
+        input.type = 'hidden';
+        input.name = 'payload';
+        input.value = JSON.stringify(drivePayload);
+        form.appendChild(input);
+        document.body.appendChild(form);
+        form.submit();
+
+        setTimeout(() => {
+          try { document.body.removeChild(form); document.body.removeChild(iframe); } catch(e) {}
+        }, 8000);
+
+        uploaded++;
+        await new Promise(r => setTimeout(r, 800));
+      } catch(err) {
+        console.warn('Photo upload error:', err);
+      }
+    }
+  }
+  showSyncStatus(`✅ ${uploaded} foto(s) subida(s) a Drive`, '#4ade80');
+}
+
 async function loadSurveys() {
-  // Cargar desde caché local (el Sheet es write-only por CORS)
   try {
     const res = await window.storage.get('surveys_local');
     if (res) allSurveys = JSON.parse(res.value);
   } catch(e) { allSurveys = []; }
+  try {
+    const res2 = await window.storage.get('photos_local');
+    if (res2) allPhotoData = JSON.parse(res2.value);
+  } catch(e) { allPhotoData = {}; }
 }
 
 // ══════════════════════════════════════════
@@ -1421,6 +1635,143 @@ function filterDash(el, filter) {
   document.querySelectorAll('.filter-chip').forEach(c => c.classList.remove('active'));
   el.classList.add('active');
   renderDashboard();
+}
+
+function renderDetail(s) {
+  const secs = s.model === 'flagship' ? FLAGSHIP_SECTIONS : CAMPER_SECTIONS;
+  const scoreColor = { green: '#1a7f4b', yellow: '#b85c00', red: '#c0392b', nogo: '#ff6b6b' };
+  const verdictLabels = { green: 'GO ✓', yellow: 'GO* CON CONDICIONES', red: 'NO GO POR SCORE', nogo: 'NO GO — DEAL-BREAKER' };
+  const scaleLabels = {
+    'visibilidad': ['Difícil de ver','Se ve pero hay que buscarlo','Altamente visible'],
+    'trafico': ['Poco tráfico','Tráfico medio','Tráfico alto'],
+    'default': ['No cumple','Cumple parcialmente','Cumple totalmente']
+  };
+
+  let html = `
+    <div style="font-family:var(--mono);font-size:10px;color:var(--gray-400);margin-bottom:12px;letter-spacing:0.05em">${s.model.toUpperCase()} · ${s.date} · ${s.evaluador}</div>
+    <div class="detail-hero ${s.color}">
+      <div class="detail-hero-verdict">${verdictLabels[s.color]}</div>
+      <div class="detail-hero-score">${s.color === 'nogo' ? '⛔' : s.pct + '%'}</div>
+      <div class="detail-hero-name">${s.name} · ${s.ciudad}</div>
+    </div>`;
+
+  // Dealbreakers if any
+  if (s.dealbreakers && s.dealbreakers.length > 0) {
+    html += `<div class="detail-db-section">
+      <div class="detail-db-title">⛔ Deal-breakers activados</div>
+      ${s.dealbreakers.map(d => `<div class="detail-db-item"><span>·</span><span>${d}</span></div>`).join('')}
+    </div>`;
+  }
+
+  // Score breakdown bar
+  if (s.breakdown && s.breakdown.length > 0) {
+    html += `<div class="detail-section"><div class="detail-section-header"><span class="detail-section-title">Desglose por sección</span></div>`;
+    s.breakdown.forEach(b => {
+      const c = b.pct >= 75 ? '#1a7f4b' : b.pct >= 55 ? '#b85c00' : '#c0392b';
+      html += `<div class="detail-q-row">
+        <div class="detail-q-label">${b.name}</div>
+        <div style="display:flex;align-items:center;gap:8px">
+          <div style="width:60px;height:4px;background:var(--gray-200);border-radius:2px">
+            <div style="width:${b.pct}%;height:100%;background:${c};border-radius:2px"></div>
+          </div>
+          <span class="detail-q-val" style="color:${c}">${b.pct}%</span>
+        </div>
+      </div>`;
+    });
+    html += `</div>`;
+  }
+
+  // Each section detail
+  secs.forEach(sec => {
+    if (sec.id === 'datos') {
+      // Show datos as info card
+      html += `<div class="detail-section">
+        <div class="detail-section-header"><span class="detail-section-title">📋 ${sec.title}</span></div>`;
+      sec.questions.forEach(q => {
+        const val = s.answers[q.id];
+        if (!val) return;
+        html += `<div class="detail-q-row">
+          <div class="detail-q-label">${q.label}</div>
+          <div class="detail-q-val val-text">${val}</div>
+        </div>`;
+      });
+      html += `</div>`;
+      return;
+    }
+    if (sec.id === 'dealbreakers' || sec.id === 'dealbreakers_camper') {
+      html += `<div class="detail-section">
+        <div class="detail-section-header"><span class="detail-section-title">⚠️ ${sec.title}</span></div>`;
+      sec.questions.forEach(q => {
+        const val = s.answers[q.id];
+        if (val === undefined) return;
+        html += `<div class="detail-q-row">
+          <div class="detail-q-label">${q.label}</div>
+          <div class="detail-q-val ${val === 'yes' ? 'val-yes' : 'val-no'}">${val === 'yes' ? 'SÍ ⚠' : 'No ✓'}</div>
+        </div>`;
+      });
+      html += `</div>`;
+      return;
+    }
+
+    const scaleQs = sec.questions.filter(q => q.type === 'scale' && s.answers[q.id] !== undefined);
+    if (scaleQs.length === 0) return;
+    const secScore = scaleQs.reduce((a, q) => a + (s.answers[q.id] || 0), 0);
+    const secMax = scaleQs.length * 3;
+    const secPct = Math.round(secScore / secMax * 100);
+    const secColor = secPct >= 75 ? '#1a7f4b' : secPct >= 55 ? '#b85c00' : '#c0392b';
+
+    html += `<div class="detail-section">
+      <div class="detail-section-header">
+        <span class="detail-section-title">${sec.title}</span>
+        <span class="detail-section-pct" style="color:${secColor}">${secPct}%</span>
+      </div>`;
+
+    sec.questions.forEach(q => {
+      const val = s.answers[q.id];
+      if (val === undefined) return;
+      let valDisplay = '';
+      let valClass = '';
+      if (q.type === 'scale') {
+        const lbls = q.opts || scaleLabels['default'];
+        valDisplay = val + ' — ' + lbls[val - 1];
+        valClass = 'val-' + val;
+      } else if (q.type === 'yesno') {
+        valDisplay = val === 'yes' ? 'Sí' : 'No';
+        valClass = val === 'yes' ? 'val-yes' : 'val-no';
+      } else {
+        valDisplay = val;
+        valClass = 'val-text';
+      }
+      html += `<div class="detail-q-row">
+        <div class="detail-q-label">${q.label}${q.required ? '' : ' <span style="font-size:10px;color:var(--gray-400)">(opcional)</span>'}</div>
+        <div class="detail-q-val ${valClass}" style="max-width:180px;text-align:right;line-height:1.3">${valDisplay}</div>
+      </div>`;
+    });
+
+    // Photos for this section
+    const photos = allPhotoData[s.id] && allPhotoData[s.id][sec.id];
+    if (photos && photos.length > 0) {
+      html += `<div style="padding:12px 16px;border-top:1px solid var(--gray-100)">
+        <div style="font-size:12px;font-weight:500;margin-bottom:8px;color:var(--gray-600)">📷 Fotos (${photos.length})</div>
+        <div class="detail-photos-grid">
+          ${photos.map(src => `<img src="${src}" class="detail-photo-thumb" onclick="openLightbox('${src}')" alt="foto">`).join('')}
+        </div>
+      </div>`;
+    }
+
+    html += `</div>`;
+  });
+
+  // Upload status
+  if (s.driveLinks && s.driveLinks.length > 0) {
+    html += `<div class="upload-status">
+      <div class="upload-status-title">📁 Fotos en Google Drive</div>
+      ${s.driveLinks.map(l => `<div class="upload-item"><span>${l.section}</span><a href="${l.url}" target="_blank" class="u-ok">Ver carpeta →</a></div>`).join('')}
+    </div>`;
+  }
+
+  document.getElementById('detail-container').innerHTML = html;
+  window.scrollTo(0, 0);
 }
 
 function renderDashboard() {
@@ -1458,14 +1809,17 @@ function renderDashboard() {
   const scoreColor = { green: '#1a7f4b', yellow: '#b85c00', red: '#c0392b', nogo: '#c0392b' };
 
   document.getElementById('survey-list').innerHTML = filtered.map(s => `
-    <div class="survey-item">
+    <div class="survey-item" onclick="showDetail(${s.id})" style="cursor:pointer;transition:all 0.15s" onmouseover="this.style.borderColor='#0047BB'" onmouseout="this.style.borderColor='#e2e0db'">
       <div class="survey-semaphore ${semClass[s.color]}"></div>
       <div class="survey-info">
         <div class="s-name">${s.name}</div>
         <div class="s-meta">${s.ciudad} · ${s.date} · ${s.evaluador}</div>
       </div>
       <div><span class="survey-model-tag" style="${tagStyle[s.model]}">${s.model.toUpperCase()}</span></div>
-      <div class="survey-score" style="color:${scoreColor[s.color]}">${s.color === 'nogo' ? '⛔' : s.pct + '%'}<br><span style="font-size:10px;color:var(--gray-400)">${verdictShort[s.color]}</span></div>
+      <div style="display:flex;flex-direction:column;align-items:flex-end;gap:4px">
+        <div class="survey-score" style="color:${scoreColor[s.color]}">${s.color === 'nogo' ? '⛔' : s.pct + '%'}<br><span style="font-size:10px;color:var(--gray-400)">${verdictShort[s.color]}</span></div>
+        <span style="font-size:10px;color:var(--gray-400);font-family:var(--mono)">ver detalle →</span>
+      </div>
     </div>`).join('');
 }
 
